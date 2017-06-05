@@ -1,0 +1,30 @@
+version: '2'
+services:
+  # Web server
+  caddy:
+    image: kamthelot/caddy
+    container_name: 'caddy-web-server'
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /your/path/.caddy:/root.caddy
+      - /your/project/path:/var/www/html
+  # BDD
+  bdd:
+    image: mariadb:10.3
+    container_name: mariadb
+    volumes:
+      - /your/mariaDb/path:/var/lib/mysql
+    ports:
+      - 127.0.0.1:3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_password
+  # PHP fpm
+  php:
+    image: php:7-fpm
+    container_name: php
+    ports:
+      - 127.0.0.1:9000:9000
+    volumes:
+      - /your/project/path:/var/www/html
